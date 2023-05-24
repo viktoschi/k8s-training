@@ -1,29 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  creationTimestamp: null
+  name: vote-deployment
   labels:
     app: vote-deployment
-  name: vote-deployment
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: vote-deployment
-  strategy: {}
   template:
     metadata:
-      creationTimestamp: null
+      name: vote-deployment
       labels:
         app: vote-deployment
     spec:
       containers:
-      - env:
-        - name: REDIS_HOST
-          value: redis-service
-        image: gcr.io/cloudogu-trainings/orpheus/vote:0.2
-        name: vote-pod
-        resources: {}
-      dnsPolicy: ClusterFirst
-      restartPolicy: Always
-status: {}
+        - name: vote-pod
+          image: gcr.io/cloudogu-trainings/orpheus/vote:0.2
+          ports:
+            - containerPort: 80
+          env:
+            - name: REDIS_HOST
+              value: "redis-service"

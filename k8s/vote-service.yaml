@@ -5,7 +5,7 @@ metadata:
 spec:
   type: LoadBalancer
   selector:
-    app: vote-label
+    app: vote-deployment
   ports:
   - port: 80
     # Optional: Port Mapping
