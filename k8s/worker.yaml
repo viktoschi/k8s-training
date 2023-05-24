@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: worker
+  labels:
+    app: worker-label
+spec:
+  selector:
+    matchLabels: 
+      app: worker-label
+  template: 
+    metadata:
+      labels:
+        app: worker-label
+    spec:
+      containers:
+      - name: worker
+        image: gcr.io/cloudogu-trainings/worker:0.1
+        env:
+        - name: REDIS_HOST
+          value: redis
+        - name: POSTGRES_HOST
+          value: postgres
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secrets
+              key: username
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secrets
+              key: password
